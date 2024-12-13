@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { fetchFromMifos } from "@/utils/fetchFromMifos";
+import { fetchFromMifos } from "@/lib/fetchFromMifos";
+import { SavingsAccount } from "@/types/api";
 
 interface BankAccount {
   id: number;
@@ -25,12 +26,12 @@ export const useBankAccounts = (clientId: number, username: string, password: st
       setError(null);
 
       try {
-        const data = await fetchFromMifos<{ savingsAccounts: any[] }>(
+        const data = await fetchFromMifos<{ savingsAccounts: SavingsAccount[] }>(
           `http://localhost:8080/fineract-provider/api/v1/clients/${clientId}/accounts`,
           username,
           password
         );
-
+        console.log({ data })
         // Transform and set the data
         setAccounts(
           data.savingsAccounts.map((account) => ({

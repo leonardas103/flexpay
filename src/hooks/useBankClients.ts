@@ -1,3 +1,4 @@
+import { Client } from "@/types/api";
 import { useState, useEffect } from "react";
 
 interface BankClient {
@@ -36,12 +37,13 @@ export const useBankClients = (clientId: number, username: string, password: str
           throw new Error(`Failed to fetch client: ${response.statusText}`);
         }
 
-        const data = await response.json();
+        const data: Client = await response.json();
+        console.log({ data })
         setClient({
           id: data.id,
           displayName: data.displayName,
           savingsAccountId: data.savingsAccountId,
-          savingsProductName: data.savingsAccountId,
+          savingsProductName: data.savingsProductName,
         });
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "Unknown error occurred");
